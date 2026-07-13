@@ -16,13 +16,13 @@ URL = os.getenv("URL")
 
 bot = Bot(BOT_TOKEN)
 
-async def check():
+async def check():print("Prüfe Webseite...")
 
     try:
 
-        response = requests.get(URL, timeout=20)
+        response = requests.get(URL, timeout=20)print("Status:", response.status_code)
 
-        text = response.text.lower()
+        text = response.text.lower()print(text[:500])
 
         suchbegriffe = [
 
