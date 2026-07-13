@@ -1,47 +1,61 @@
 import os
+
 import time
+
+import asyncio
+
 import requests
-from bs4 import BeautifulSoup
+
 from telegram import Bot
 
 BOT_TOKEN = os.getenv("BOT_TOKEN")
+
 CHAT_ID = os.getenv("CHAT_ID")
 
-URL ="https://scheduler.clinicore.eu/drkultas?showCards=true"
+URL = os.getenv("URL")
 
-print("Bot startet...")
+bot = Bot(BOT_TOKEN)
 
-bot = Bot(token=BOT_TOKEN)
+async def check():
 
-print("Bot wurde erstellt.")
+    try:
 
+        response = requests.get(URL, timeout=20)
 
-def check():
-    response = requests.get(URL, timeout=30)
-    text = response.text.lower()
+        text = response.text.lower()
 
-    suchbegriffe = [
-        "termin verfügbar",
-        "verfügbar",
-        "freie termine",
-        "auswählen"
-    ]
+        suchbegriffe = [
 
-    for wort in suchbegriffe:
-        if wort in text:
-            bot.send_message(
-                chat_id=CHAT_ID,
-                text="🚨 Es könnte ein freier Clinicore-Termin verfügbar sein!"
-            )
-            return True
+            "termin verfügbar",
 
-    return False
+            "verfügbar",
 
+            "freie termine",
+
+            "auswählen"
+
+        ]
+
+        for wort in suchbegriffe:
+
+            if wort in text:
+
+                await bot.send_message(
+
+                    chat_id=CHAT_ID,
+
+                    text="🚨 Möglicherweise ist ein Termin verfügbar!"
+
+                )
+
+                return
+
+    except Exception as e:
+
+        print(e)
 
 while True:
-    try:
-        check()
-    except Exception as e:
-        print(e)
+
+    asyncio.run(check())
 
     time.sleep(120)
