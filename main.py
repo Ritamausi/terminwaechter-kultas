@@ -9,7 +9,11 @@ CHAT_ID = os.getenv("CHAT_ID")
 
 URL ="https://scheduler.clinicore.eu/drkultas?showCards=true"
 
+print("Bot startet...")
+
 bot = Bot(token=BOT_TOKEN)
+
+print("Bot wurde erstellt.")
 
 def check():
     response = requests.get(URL, timeout=30)
