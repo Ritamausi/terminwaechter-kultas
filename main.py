@@ -14,7 +14,7 @@ print("Bot startet...")
 bot = Bot(token=BOT_TOKEN)
 
 print("Bot wurde erstellt.")
-bot.send_message(chat_id=CHAT_ID, text="✅ Testnachricht vom Bot")
+
 
 def check():
     response = requests.get(URL, timeout=30)
